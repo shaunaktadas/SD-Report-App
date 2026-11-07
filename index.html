@@ -114,7 +114,7 @@ Notes</div>
 
 
   <!-- =======================================================
-       2. PILE CALCULATOR SCREEN
+       2. PILE CALCULATOR SCREEN (Embedded Native)
   ======================================================= -->
   <div id="screen-pile" class="screen-view">
     <div class="flutter-app-bar">
@@ -123,7 +123,7 @@ Notes</div>
         <span style="color:#2563EB;">🧮</span>
         <span>Pile Calculator</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-pile')" title="Reload Page">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
     <!-- Tabs: Pile Calculator & Formula -->
@@ -132,23 +132,70 @@ Notes</div>
       <button class="flutter-tab-item" data-tab="formula" onclick="switchTab('screen-pile', 'formula')">📐 Formula</button>
     </div>
 
-    <!-- Tab 1: Pile Calculator iframe -->
-    <div id="screen-pile-calc" class="screen-pile-tab-content" style="flex:1;">
-      <iframe id="iframe-pile" class="iframe-container" src="assets/Pile_Calculator.html"></iframe>
-    </div>
+    <div class="screen-scroll-body">
+      <!-- Tab 1: Calculator -->
+      <div id="screen-pile-calc" class="screen-pile-tab-content">
+        <div class="form-card">
+          <div class="form-group">
+            <label>Existing Quantity (Q₁ in tons)</label>
+            <input type="number" id="pile-q1" class="form-input" placeholder="e.g. 15000">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Existing LSF (L₁)</label>
+              <input type="number" step="0.1" id="pile-l1" class="form-input" placeholder="e.g. 102.5">
+            </div>
+            <div class="form-group">
+              <label>Existing MgO (%) (M₁)</label>
+              <input type="number" step="0.1" id="pile-m1" class="form-input" placeholder="e.g. 1.8">
+            </div>
+          </div>
 
-    <!-- Tab 2: Formula Guide -->
-    <div id="screen-pile-formula" class="screen-pile-tab-content" style="display:none; padding:16px;">
-      <div style="background:#FFFFFF; border-radius:14px; padding:18px; border:1px solid #E2E8F0; box-shadow:0 2px 10px rgba(0,0,0,0.04);">
-        <h3 style="color:#0F172A; font-size:16px; margin-bottom:12px;">Blending Calculation Formula</h3>
-        <p style="font-size:13.5px; line-height:1.6; color:#475569;">
-          <b>Target Quantity Equation:</b><br>
-          Q₂ = Qₜ - Q₁<br><br>
-          <b>Required New Material LSF (L₂):</b><br>
-          L₂ = [(Lₜ × Qₜ) − (L₁ × Q₁)] / Q₂<br><br>
-          <b>Required New Material MgO (M₂):</b><br>
-          M₂ = [(Mₜ × Qₜ) − (M₁ × Q₁)] / Q₂
-        </p>
+          <div class="form-group">
+            <label>Target Total Quantity (Qₜ in tons)</label>
+            <input type="number" id="pile-qt" class="form-input" placeholder="e.g. 25000">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Target LSF (Lₜ)</label>
+              <input type="number" step="0.1" id="pile-lt" class="form-input" placeholder="e.g. 98.0">
+            </div>
+            <div class="form-group">
+              <label>Target MgO (%) (Mₜ)</label>
+              <input type="number" step="0.1" id="pile-mt" class="form-input" placeholder="e.g. 1.5">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>New Mat. LSF (L₂) (opt)</label>
+              <input type="number" step="0.1" id="pile-l2" class="form-input" placeholder="Optional">
+            </div>
+            <div class="form-group">
+              <label>New Mat. MgO (M₂) (opt)</label>
+              <input type="number" step="0.1" id="pile-m2" class="form-input" placeholder="Optional">
+            </div>
+          </div>
+
+          <button class="btn-action btn-primary" onclick="calcBlendingPile()">Calculate Blending</button>
+
+          <div id="pile-result-box" style="display:none; margin-top:14px; padding:12px; border-radius:8px; background:#EFF6FF; border-left:4px solid #2563EB; font-size:13.5px; line-height:1.5;"></div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Formula Guide -->
+      <div id="screen-pile-formula" class="screen-pile-tab-content" style="display:none;">
+        <div class="form-card">
+          <h3 style="color:#0F172A; font-size:16px; margin-bottom:12px;">Blending Calculation Formula</h3>
+          <p style="font-size:13.5px; line-height:1.6; color:#475569;">
+            <b>Target Quantity Equation:</b><br>
+            Q₂ = Qₜ - Q₁<br><br>
+            <b>Required New Material LSF (L₂):</b><br>
+            L₂ = [(Lₜ × Qₜ) − (L₁ × Q₁)] / Q₂<br><br>
+            <b>Required New Material MgO (M₂):</b><br>
+            M₂ = [(Mₜ × Qₜ) − (M₁ × Q₁)] / Q₂
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -227,7 +274,7 @@ Notes</div>
     <input type="file" id="report-type-picker" accept="image/*" style="display:none;" onchange="onPhotoSelected(event)">
 
     <div class="screen-scroll-body">
-      <!-- 5 Report Types List (When no photo chosen) -->
+      <!-- 5 Report Types List -->
       <div id="share-categories-list">
         <div style="font-size:13px; color:#64748B; margin-bottom:10px;">Select report type to capture and share:</div>
 
@@ -383,7 +430,7 @@ Notes</div>
 
 
   <!-- =======================================================
-       8. A & B SHIFT REPORT SCREEN (3 Tabs: Report, Calc, TPH)
+       8. A & B SHIFT REPORT SCREEN (Native 3 Tabs)
   ======================================================= -->
   <div id="screen-ab-report" class="screen-view">
     <div class="flutter-app-bar">
@@ -392,7 +439,7 @@ Notes</div>
         <span style="color:#2563EB;">⏰</span>
         <span>A & B Shift Report</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-ab-report')" title="Reload Tab">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
     <!-- Tab Bar -->
@@ -402,25 +449,140 @@ Notes</div>
       <button class="flutter-tab-item" data-tab="tph" onclick="switchTab('screen-ab-report', 'tph')">⚡ TPH</button>
     </div>
 
-    <!-- Tab 1: Report (IndexedStack persistence) -->
-    <div id="screen-ab-report-report" class="screen-ab-report-tab-content" style="flex:1;">
-      <iframe id="iframe-ab-report" class="iframe-container" src="assets/A_B_shift_Report.html"></iframe>
-    </div>
+    <div class="screen-scroll-body">
+      <!-- Tab 1: Report Form -->
+      <div id="screen-ab-report-report" class="screen-ab-report-tab-content">
+        <div class="form-card">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Date</label>
+              <input type="date" id="ab-date" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Shift</label>
+              <select id="ab-shift" class="form-select">
+                <option value="A">A Shift</option>
+                <option value="B">B Shift</option>
+              </select>
+            </div>
+          </div>
 
-    <!-- Tab 2: Calculator -->
-    <div id="screen-ab-report-calc" class="screen-ab-report-tab-content" style="flex:1; display:none;">
-      <iframe id="iframe-ab-calc" class="iframe-container" src="assets/calculator.html"></iframe>
-    </div>
+          <div class="form-group">
+            <label>Raising</label>
+            <div class="form-row">
+              <input type="number" id="ab-raisingTrips" class="form-input" placeholder="Trips">
+              <input type="number" step="0.01" id="ab-raisingMT" class="form-input" placeholder="MT">
+            </div>
+          </div>
 
-    <!-- Tab 3: TPH -->
-    <div id="screen-ab-report-tph" class="screen-ab-report-tab-content" style="flex:1; display:none;">
-      <iframe id="iframe-ab-tph" class="iframe-container" src="assets/TPH_Calculator.html"></iframe>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Development</label>
+              <input type="number" id="ab-devTrips" class="form-input" placeholder="Trips">
+            </div>
+            <div class="form-group">
+              <label>Top Soil</label>
+              <input type="number" id="ab-soilTrips" class="form-input" placeholder="Trips">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Stock Feeding</label>
+            <input type="number" id="ab-stockTrips" class="form-input" placeholder="Trips">
+          </div>
+
+          <!-- Dynamic Drilling details -->
+          <div class="form-group">
+            <label>Drilling Details</label>
+            <div id="ab-drilling-container" style="display:flex; flex-direction:column; gap:6px; margin-bottom:6px;"></div>
+            <button class="btn-action btn-outline" style="padding:8px; font-size:13px; background:#F1F5F9; color:#0F172A;" onclick="addNativeDrillingRow()">+ Add Drilling Hole & Meters</button>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Stock Unloading</label>
+              <input type="number" id="ab-stockUnload" class="form-input" placeholder="Trips">
+            </div>
+            <div class="form-group">
+              <label>Hopper Unloading</label>
+              <input type="number" id="ab-hopperUnload" class="form-input" placeholder="Trips">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Total Crushing (MT)</label>
+            <input type="number" step="0.01" id="ab-crushing" class="form-input" placeholder="MT">
+          </div>
+
+          <button class="btn-action btn-primary" onclick="generateNativeABReport()">Generate Report</button>
+
+          <!-- Result output -->
+          <div id="ab-result-container" style="display:none;">
+            <pre id="ab-report-output" class="report-output-box"></pre>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="btn-action btn-copy" style="flex:1;" onclick="copyNativeABReport()">📋 Copy Report</button>
+              <button class="btn-action btn-whatsapp" style="flex:1.5;" onclick="shareNativeABWhatsApp()">💬 Share on WhatsApp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Calculator -->
+      <div id="screen-ab-report-calc" class="screen-ab-report-tab-content" style="display:none;">
+        <div class="calc-box">
+          <div class="calc-screen" id="calc-display-ab">0</div>
+          <div class="calc-grid">
+            <button class="calc-btn clear" onclick="calcInput('C', 'calc-display-ab')">C</button>
+            <button class="calc-btn" onclick="calcInput('()', 'calc-display-ab')">( )</button>
+            <button class="calc-btn" onclick="calcInput('%', 'calc-display-ab')">%</button>
+            <button class="calc-btn op" onclick="calcInput('/', 'calc-display-ab')">÷</button>
+
+            <button class="calc-btn" onclick="calcInput('7', 'calc-display-ab')">7</button>
+            <button class="calc-btn" onclick="calcInput('8', 'calc-display-ab')">8</button>
+            <button class="calc-btn" onclick="calcInput('9', 'calc-display-ab')">9</button>
+            <button class="calc-btn op" onclick="calcInput('*', 'calc-display-ab')">×</button>
+
+            <button class="calc-btn" onclick="calcInput('4', 'calc-display-ab')">4</button>
+            <button class="calc-btn" onclick="calcInput('5', 'calc-display-ab')">5</button>
+            <button class="calc-btn" onclick="calcInput('6', 'calc-display-ab')">6</button>
+            <button class="calc-btn op" onclick="calcInput('-', 'calc-display-ab')">−</button>
+
+            <button class="calc-btn" onclick="calcInput('1', 'calc-display-ab')">1</button>
+            <button class="calc-btn" onclick="calcInput('2', 'calc-display-ab')">2</button>
+            <button class="calc-btn" onclick="calcInput('3', 'calc-display-ab')">3</button>
+            <button class="calc-btn op" onclick="calcInput('+', 'calc-display-ab')">+</button>
+
+            <button class="calc-btn" onclick="calcInput('0', 'calc-display-ab')">0</button>
+            <button class="calc-btn" onclick="calcInput('.', 'calc-display-ab')">.</button>
+            <button class="calc-btn" onclick="calcInput('DEL', 'calc-display-ab')">⌫</button>
+            <button class="calc-btn equal" onclick="calcInput('=', 'calc-display-ab')">=</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: TPH -->
+      <div id="screen-ab-report-tph" class="screen-ab-report-tab-content" style="display:none;">
+        <div class="form-card" style="text-align:center;">
+          <h3 style="color:#0F172A; margin-bottom:14px; font-size:16px;">TPH Calculator</h3>
+          <div class="form-group" style="text-align:left;">
+            <label>Tonnage (MT):</label>
+            <input type="number" id="tph-tonnage-ab" class="form-input" placeholder="Enter Tonnage">
+          </div>
+          <div class="form-group" style="text-align:left;">
+            <label>Running Hours (R. Hrs):</label>
+            <input type="number" step="0.1" id="tph-rhrs-ab" class="form-input" placeholder="Enter Running Hours">
+          </div>
+          <button class="btn-action btn-primary" onclick="calcNativeTPH('tph-tonnage-ab', 'tph-rhrs-ab', 'tph-res-ab')">Calculate TPH</button>
+
+          <div id="tph-res-ab" style="display:none; margin-top:16px; padding:16px; background:#EFF6FF; border-left:4px solid #2563EB; border-radius:8px; font-weight:700; color:#2563EB; font-size:18px;"></div>
+        </div>
+      </div>
     </div>
   </div>
 
 
   <!-- =======================================================
-       9. C SHIFT REPORT SCREEN (3 Tabs: Report, Calc, TPH)
+       9. C SHIFT REPORT SCREEN (Native 3 Tabs)
   ======================================================= -->
   <div id="screen-c-report" class="screen-view">
     <div class="flutter-app-bar">
@@ -429,7 +591,7 @@ Notes</div>
         <span style="color:#7C3AED;">🌙</span>
         <span>C Shift Report</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-c-report')" title="Reload Tab">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
     <!-- Tab Bar -->
@@ -439,25 +601,138 @@ Notes</div>
       <button class="flutter-tab-item" data-tab="tph" onclick="switchTab('screen-c-report', 'tph')">⚡ TPH</button>
     </div>
 
-    <!-- Tab 1: Report -->
-    <div id="screen-c-report-report" class="screen-c-report-tab-content" style="flex:1;">
-      <iframe id="iframe-c-report" class="iframe-container" src="assets/C_shift_Report.html"></iframe>
-    </div>
+    <div class="screen-scroll-body">
+      <!-- Tab 1: C Shift Day Report -->
+      <div id="screen-c-report-report" class="screen-c-report-tab-content">
+        <div class="form-card">
+          <div class="form-group">
+            <label>Date:</label>
+            <input type="date" id="c-date" class="form-input">
+          </div>
 
-    <!-- Tab 2: Calculator -->
-    <div id="screen-c-report-calc" class="screen-c-report-tab-content" style="flex:1; display:none;">
-      <iframe id="iframe-c-calc" class="iframe-container" src="assets/calculator.html"></iframe>
-    </div>
+          <!-- A Shift Section -->
+          <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:12px;">
+            <div style="font-weight:700; color:#2563EB; font-size:13.5px; margin-bottom:6px;">A Shift</div>
+            <div class="form-row">
+              <input type="number" id="c-aTrip" class="form-input" placeholder="Raising Trip">
+              <input type="number" id="c-aMT" class="form-input" placeholder="Raising MT">
+            </div>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="number" id="c-aDev" class="form-input" placeholder="Dev Trip">
+              <input type="number" id="c-aSoil" class="form-input" placeholder="Top Soil Trip">
+            </div>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="number" id="c-aStock" class="form-input" placeholder="Stock Feed">
+              <input type="number" id="c-aDrill" class="form-input" placeholder="Drill MTR">
+            </div>
+          </div>
 
-    <!-- Tab 3: TPH -->
-    <div id="screen-c-report-tph" class="screen-c-report-tab-content" style="flex:1; display:none;">
-      <iframe id="iframe-c-tph" class="iframe-container" src="assets/TPH_Calculator.html"></iframe>
+          <!-- B Shift Section -->
+          <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:12px;">
+            <div style="font-weight:700; color:#7C3AED; font-size:13.5px; margin-bottom:6px;">B Shift</div>
+            <div class="form-row">
+              <input type="number" id="c-bTrip" class="form-input" placeholder="Raising Trip">
+              <input type="number" id="c-bMT" class="form-input" placeholder="Raising MT">
+            </div>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="number" id="c-bDev" class="form-input" placeholder="Dev Trip">
+              <input type="number" id="c-bSoil" class="form-input" placeholder="Top Soil Trip">
+            </div>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="number" id="c-bStock" class="form-input" placeholder="Stock Feed">
+              <input type="number" id="c-bDrill" class="form-input" placeholder="Drill MTR">
+            </div>
+          </div>
+
+          <!-- C Shift Section -->
+          <div style="background:#F8FAFC; padding:12px; border-radius:10px; border:1px solid #E2E8F0; margin-bottom:12px;">
+            <div style="font-weight:700; color:#059669; font-size:13.5px; margin-bottom:6px;">C Shift</div>
+            <input type="number" id="c-cStock" class="form-input" placeholder="Stock Feeding Trip">
+          </div>
+
+          <!-- MTD Auto Section -->
+          <div class="form-group">
+            <label>MTD SD Mines (Auto-Calculate)</label>
+            <textarea id="c-prevReport" class="form-textarea" placeholder="Paste yesterday's report here for auto MTD..." style="height:60px;"></textarea>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="text" id="c-mtdRaising" class="form-input" placeholder="MTD Raising MT">
+              <input type="text" id="c-mtdDev" class="form-input" placeholder="MTD Dev Trip">
+            </div>
+            <div class="form-row" style="margin-top:6px;">
+              <input type="text" id="c-mtdSoil" class="form-input" placeholder="MTD Soil Trip">
+              <input type="text" id="c-mtdDrill" class="form-input" placeholder="MTD Drill MTR">
+            </div>
+          </div>
+
+          <button class="btn-action btn-purple" onclick="generateNativeCReport()">Generate C Shift Day Report</button>
+
+          <!-- Result output -->
+          <div id="c-result-container" style="display:none;">
+            <pre id="c-report-output" class="report-output-box"></pre>
+            <div style="display:flex; gap:8px; margin-top:10px;">
+              <button class="btn-action btn-copy" style="flex:1;" onclick="copyNativeCReport()">📋 Copy Report</button>
+              <button class="btn-action btn-whatsapp" style="flex:1.5;" onclick="shareNativeCWhatsApp()">💬 Share on WhatsApp</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Calculator -->
+      <div id="screen-c-report-calc" class="screen-c-report-tab-content" style="display:none;">
+        <div class="calc-box">
+          <div class="calc-screen" id="calc-display-c">0</div>
+          <div class="calc-grid">
+            <button class="calc-btn clear" onclick="calcInput('C', 'calc-display-c')">C</button>
+            <button class="calc-btn" onclick="calcInput('()', 'calc-display-c')">( )</button>
+            <button class="calc-btn" onclick="calcInput('%', 'calc-display-c')">%</button>
+            <button class="calc-btn op" onclick="calcInput('/', 'calc-display-c')">÷</button>
+
+            <button class="calc-btn" onclick="calcInput('7', 'calc-display-c')">7</button>
+            <button class="calc-btn" onclick="calcInput('8', 'calc-display-c')">8</button>
+            <button class="calc-btn" onclick="calcInput('9', 'calc-display-c')">9</button>
+            <button class="calc-btn op" onclick="calcInput('*', 'calc-display-c')">×</button>
+
+            <button class="calc-btn" onclick="calcInput('4', 'calc-display-c')">4</button>
+            <button class="calc-btn" onclick="calcInput('5', 'calc-display-c')">5</button>
+            <button class="calc-btn" onclick="calcInput('6', 'calc-display-c')">6</button>
+            <button class="calc-btn op" onclick="calcInput('-', 'calc-display-c')">−</button>
+
+            <button class="calc-btn" onclick="calcInput('1', 'calc-display-c')">1</button>
+            <button class="calc-btn" onclick="calcInput('2', 'calc-display-c')">2</button>
+            <button class="calc-btn" onclick="calcInput('3', 'calc-display-c')">3</button>
+            <button class="calc-btn op" onclick="calcInput('+', 'calc-display-c')">+</button>
+
+            <button class="calc-btn" onclick="calcInput('0', 'calc-display-c')">0</button>
+            <button class="calc-btn" onclick="calcInput('.', 'calc-display-c')">.</button>
+            <button class="calc-btn" onclick="calcInput('DEL', 'calc-display-c')">⌫</button>
+            <button class="calc-btn equal" onclick="calcInput('=', 'calc-display-c')">=</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: TPH -->
+      <div id="screen-c-report-tph" class="screen-c-report-tab-content" style="display:none;">
+        <div class="form-card" style="text-align:center;">
+          <h3 style="color:#0F172A; margin-bottom:14px; font-size:16px;">TPH Calculator</h3>
+          <div class="form-group" style="text-align:left;">
+            <label>Tonnage (MT):</label>
+            <input type="number" id="tph-tonnage-c" class="form-input" placeholder="Enter Tonnage">
+          </div>
+          <div class="form-group" style="text-align:left;">
+            <label>Running Hours (R. Hrs):</label>
+            <input type="number" step="0.1" id="tph-rhrs-c" class="form-input" placeholder="Enter Running Hours">
+          </div>
+          <button class="btn-action btn-purple" onclick="calcNativeTPH('tph-tonnage-c', 'tph-rhrs-c', 'tph-res-c')">Calculate TPH</button>
+
+          <div id="tph-res-c" style="display:none; margin-top:16px; padding:16px; background:#F5F3FF; border-left:4px solid #7C3AED; border-radius:8px; font-weight:700; color:#7C3AED; font-size:18px;"></div>
+        </div>
+      </div>
     </div>
   </div>
 
 
   <!-- =======================================================
-       10. MANPOWER REPORT SCREEN
+       10. MANPOWER REPORT SCREEN (Native)
   ======================================================= -->
   <div id="screen-manpower" class="screen-view">
     <div class="flutter-app-bar">
@@ -466,32 +741,204 @@ Notes</div>
         <span style="color:#059669;">👥</span>
         <span>Manpower Report</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-manpower')" title="Reload Page">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
-    <iframe id="iframe-manpower" class="iframe-container" src="assets/Manpower_report.html"></iframe>
+    <div class="screen-scroll-body">
+      <div class="form-card">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Select Date:</label>
+            <input type="date" id="mp-date" class="form-input">
+          </div>
+          <div class="form-group">
+            <label>Select Shift:</label>
+            <select id="mp-shift" class="form-select">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mine Foreman:</label>
+          <select id="mp-foreman" class="form-select">
+            <option value="">--Select Foreman--</option>
+            <option value="Shaunak Tadas">Shaunak Tadas</option>
+            <option value="Rahul Singh">Rahul Singh</option>
+            <option value="Sameer Bhagat">Sameer Bhagat</option>
+            <option value="Jugal Shirpurkar">Jugal Shirpurkar</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Mine Mate:</label>
+          <select id="mp-mate" class="form-select">
+            <option value="">--Select Mate--</option>
+            <option value="Rakesh Patel">Rakesh Patel</option>
+            <option value="Arshad Sheikh">Arshad Sheikh</option>
+            <option value="Satyendra Mishra">Satyendra Mishra</option>
+            <option value="Said MD">Said MD</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>OWN + TP:</label>
+            <input type="number" id="mp-own" class="form-input" min="0" placeholder="Count">
+          </div>
+          <div class="form-group">
+            <label>PKS Manpower:</label>
+            <input type="number" id="mp-pks" class="form-input" min="0" placeholder="Count">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Total Manpower:</label>
+          <input type="number" id="mp-total" class="form-input" min="0" placeholder="Total">
+        </div>
+
+        <button class="btn-action btn-success" onclick="generateNativeManpowerReport()">Generate Manpower Report</button>
+
+        <div id="mp-result-wrap" style="display:none;">
+          <pre id="mp-report-output" class="report-output-box"></pre>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <button class="btn-action btn-copy" style="flex:1;" onclick="copyNativeManpowerReport()">📋 Copy Report</button>
+            <button class="btn-action btn-whatsapp" style="flex:1.5;" onclick="shareNativeManpowerWhatsApp()">💬 Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
   <!-- =======================================================
-       11. SHIFT ALLOCATION REPORT SCREEN
+       11. SHIFT ALLOCATION REPORT SCREEN (Native)
   ======================================================= -->
   <div id="screen-allocation" class="screen-view">
     <div class="flutter-app-bar">
       <button class="nav-btn" onclick="handleBackButton()">❮</button>
       <div class="app-bar-title-wrap">
         <span style="color:#D97706;">📋</span>
-        <span>Shift Allocation Report</span>
+        <span>Shift Allocation</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-allocation')" title="Reload Page">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
-    <iframe id="iframe-allocation" class="iframe-container" src="assets/allocation.html"></iframe>
+    <div class="screen-scroll-body">
+      <div class="form-card">
+        <div class="form-group">
+          <label>Select Shift:</label>
+          <select id="alloc-shift" class="form-select">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Select Mine Foreman:</label>
+          <select id="alloc-foreman" class="form-select">
+            <option value="">--Select Mine Foreman--</option>
+            <option value="Shaunak Tadas">Shaunak Tadas</option>
+            <option value="Rahul Singh">Rahul Singh</option>
+            <option value="Jugal Shirpurkar">Jugal Shirpurkar</option>
+            <option value="Sameer Bhagat">Sameer Bhagat</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Select Mine Mate:</label>
+          <select id="alloc-mate" class="form-select">
+            <option value="">--Select Mine Mate--</option>
+            <option value="Rakesh Patel">Rakesh Patel</option>
+            <option value="Satyendra Mishra">Satyendra Mishra</option>
+            <option value="Arshad Sheikh">Arshad Sheikh</option>
+            <option value="Said MD">Said MD</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Raising (Machine + Tipper):</label>
+          <div class="form-row">
+            <select id="alloc-raising-sy" class="form-select">
+              <option value="">Select SY</option>
+              <option value="SY-500">SY-500</option>
+              <option value="SY-380">SY-380</option>
+            </select>
+            <select id="alloc-raising-tip" class="form-select">
+              <option value="">Select Tipper</option>
+              <option value="1 Tipper">1 Tipper</option>
+              <option value="2 Tipper">2 Tipper</option>
+              <option value="3 Tipper">3 Tipper</option>
+              <option value="4 Tipper">4 Tipper</option>
+              <option value="5 Tipper">5 Tipper</option>
+              <option value="6 Tipper">6 Tipper</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Development (Machine + Tipper):</label>
+          <div class="form-row">
+            <select id="alloc-dev-sy" class="form-select">
+              <option value="">Select SY</option>
+              <option value="SY-500">SY-500</option>
+              <option value="SY-380">SY-380</option>
+            </select>
+            <select id="alloc-dev-tip" class="form-select">
+              <option value="">Select Tipper</option>
+              <option value="1 Tipper">1 Tipper</option>
+              <option value="2 Tipper">2 Tipper</option>
+              <option value="3 Tipper">3 Tipper</option>
+              <option value="4 Tipper">4 Tipper</option>
+              <option value="5 Tipper">5 Tipper</option>
+              <option value="6 Tipper">6 Tipper</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Stock Feeding:</label>
+          <div class="form-row">
+            <select id="alloc-stock-sy" class="form-select">
+              <option value="">Select SY</option>
+              <option value="SY-500">SY-500</option>
+              <option value="SY-380">SY-380</option>
+              <option value="W/L">W/L</option>
+            </select>
+            <select id="alloc-stock-tip" class="form-select">
+              <option value="">Select Tipper</option>
+              <option value="1 Tipper">1 Tipper</option>
+              <option value="2 Tipper">2 Tipper</option>
+              <option value="3 Tipper">3 Tipper</option>
+              <option value="4 Tipper">4 Tipper</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Drilling:</label>
+          <input type="text" id="alloc-drilling" class="form-input" placeholder="Enter Drilling details">
+        </div>
+
+        <button class="btn-action btn-amber" onclick="generateNativeAllocReport()">Generate Allocation Report</button>
+
+        <div id="alloc-result-wrap" style="display:none;">
+          <pre id="alloc-report-output" class="report-output-box"></pre>
+          <div style="display:flex; gap:8px; margin-top:10px;">
+            <button class="btn-action btn-copy" style="flex:1;" onclick="copyNativeAllocReport()">📋 Copy Report</button>
+            <button class="btn-action btn-whatsapp" style="flex:1.5;" onclick="shareNativeAllocWhatsApp()">💬 Share on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 
   <!-- =======================================================
-       12. TOOL BOX SAFETY TALK TOPICS SCREEN
+       12. TOOL BOX SAFETY TALK TOPICS SCREEN (Native)
   ======================================================= -->
   <div id="screen-toolbox" class="screen-view">
     <div class="flutter-app-bar">
@@ -500,10 +947,26 @@ Notes</div>
         <span style="color:#DB2777;">🦺</span>
         <span>Tool Box Safety Talk Topics</span>
       </div>
-      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-toolbox')" title="Reload Page">🔄</button>
+      <div style="width:36px;"></div>
     </div>
 
-    <iframe id="iframe-toolbox" class="iframe-container" src="assets/Tool_box_safety_talk_topic.html"></iframe>
+    <div class="screen-scroll-body">
+      <div class="form-card" style="padding:10px; margin-bottom:10px;">
+        <input type="text" id="toolbox-search-input" class="form-input" placeholder="🔍 Search topic..." oninput="filterNativeSafetyTopics()">
+      </div>
+
+      <div class="form-card" style="padding:0; overflow:hidden;">
+        <table class="safety-table">
+          <thead>
+            <tr>
+              <th style="width:48px;">#</th>
+              <th>Topic</th>
+            </tr>
+          </thead>
+          <tbody id="toolbox-table-body"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
 </div>
