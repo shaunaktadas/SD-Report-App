@@ -75,6 +75,8 @@ function showScreenView(screenId) {
 function handleBackButton() {
   if (currentActiveScreen === 'home-screen') {
     showExitModal();
+  } else if (currentActiveScreen === 'screen-pdf-viewer') {
+    showScreenView('screen-dgm');
   } else {
     showScreenView('home-screen');
   }
@@ -85,7 +87,9 @@ window.addEventListener('popstate', (e) => {
   if (e.state && e.state.screen && e.state.screen !== 'home-screen') {
     showScreenView(e.state.screen);
   } else {
-    if (currentActiveScreen !== 'home-screen') {
+    if (currentActiveScreen === 'screen-pdf-viewer') {
+      showScreenView('screen-dgm');
+    } else if (currentActiveScreen !== 'home-screen') {
       showScreenView('home-screen');
     } else {
       showExitModal();
@@ -143,15 +147,14 @@ function reloadTabIframe(iframeId) {
 
 
 /* -------------------------------------------------------
-   5. DGM Site Functions & Modal
+   5. DGM Site Functions & PDF Viewer
 ------------------------------------------------------- */
-function openDgmAction(docTitle) {
-  document.getElementById('dgm-modal-title').innerText = docTitle;
-  document.getElementById('dgm-dialog-modal').classList.add('active');
-}
-
-function closeDgmModal() {
-  document.getElementById('dgm-dialog-modal').classList.remove('active');
+function openDgmPdfViewer(title, pdfPath) {
+  document.getElementById('pdf-viewer-title').innerText = title;
+  document.getElementById('pdf-download-link').href = pdfPath;
+  document.getElementById('pdf-external-btn').href = pdfPath;
+  document.getElementById('pdf-render-frame').src = pdfPath;
+  navigateTo('screen-pdf-viewer');
 }
 
 
