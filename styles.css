@@ -659,3 +659,167 @@ body {
   justify-content: flex-end;
   gap: 10px;
 }
+
+/* =======================================================
+   NATIVE FORM CARDS, INPUTS & CALCULATORS
+======================================================= */
+.form-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+  margin-bottom: 14px;
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #475569;
+  margin-bottom: 4px;
+}
+
+.form-input, .form-select, .form-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid #CBD5E1;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #0F172A;
+  background: #FFFFFF;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--primary);
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
+}
+
+.form-row > * {
+  flex: 1;
+}
+
+.btn-action {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.btn-action:active { transform: scale(0.98); }
+.btn-primary { background: #2563EB; color: white; }
+.btn-purple { background: #7C3AED; color: white; }
+.btn-success { background: #059669; color: white; }
+.btn-amber { background: #D97706; color: white; }
+.btn-whatsapp { background: #25D366; color: white; }
+.btn-copy { background: #64748B; color: white; }
+
+.report-output-box {
+  background: #0F172A;
+  color: #F8FAFC;
+  padding: 14px;
+  border-radius: 10px;
+  font-family: monospace;
+  font-size: 13px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.4;
+  margin-top: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+/* Calculator Box */
+.calc-box {
+  background: #1E293B;
+  border-radius: 16px;
+  padding: 16px;
+  max-width: 330px;
+  margin: 10px auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.calc-screen {
+  background: #0F172A;
+  color: #38BDF8;
+  border-radius: 10px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 14px;
+  font-family: monospace;
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  overflow-x: auto;
+}
+
+.calc-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.calc-btn {
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  background: #334155;
+  color: #FFFFFF;
+}
+
+.calc-btn:active { background: #475569; transform: scale(0.95); }
+.calc-btn.op { background: #2563EB; }
+.calc-btn.equal { background: #10B981; }
+.calc-btn.clear { background: #EF4444; }
+
+/* Table for Safety Topics */
+.safety-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.safety-table th {
+  background: #DB2777;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.safety-table td {
+  padding: 10px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.safety-table tr:hover {
+  background: #FDF2F8;
+}
