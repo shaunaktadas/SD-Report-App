@@ -225,35 +225,60 @@ Notes</div>
       </div>
 
       <!-- 5 DGM Procedure Cards -->
-      <div class="dgm-action-card" onclick="openDgmAction('Transit Pass Generate')">
+      <div class="dgm-action-card" onclick="openDgmPdfViewer('Transit Pass Generate', 'dgm_docs/Transit_Pass_Generate.pdf')">
         <div class="dgm-card-icon" style="background:#2563EB;">🚚</div>
         <div class="dgm-card-title">1. Transit Pass Generate</div>
         <div style="color:#94A3B8;">❯</div>
       </div>
 
-      <div class="dgm-action-card" onclick="openDgmAction('Bulk Demand Generate')">
+      <div class="dgm-action-card" onclick="openDgmPdfViewer('Bulk Demand Generate', 'dgm_docs/Bulk_Demand_Generate.pdf')">
         <div class="dgm-card-icon" style="background:#7C3AED;">📄</div>
         <div class="dgm-card-title">2. Bulk Demand Generate</div>
         <div style="color:#94A3B8;">❯</div>
       </div>
 
-      <div class="dgm-action-card" onclick="openDgmAction('Bulk Demand Surrender')">
+      <div class="dgm-action-card" onclick="openDgmPdfViewer('Bulk Demand Surrender', 'dgm_docs/Bulk_Demand_Surrender.pdf')">
         <div class="dgm-card-icon" style="background:#DC2626;">🔄</div>
         <div class="dgm-card-title">3. Bulk Demand Surrender</div>
         <div style="color:#94A3B8;">❯</div>
       </div>
 
-      <div class="dgm-action-card" onclick="openDgmAction('Add Production Information')">
+      <div class="dgm-action-card" onclick="openDgmPdfViewer('Add Production Information', 'dgm_docs/Add_Production_Information.pdf')">
         <div class="dgm-card-icon" style="background:#059669;">🏭</div>
         <div class="dgm-card-title">4. Add Production Information</div>
         <div style="color:#94A3B8;">❯</div>
       </div>
 
-      <div class="dgm-action-card" onclick="openDgmAction('Check Production Information')">
+      <div class="dgm-action-card" onclick="openDgmPdfViewer('Check Production Information', 'dgm_docs/Check_Production_Information.pdf')">
         <div class="dgm-card-icon" style="background:#D97706;">✅</div>
         <div class="dgm-card-title">5. Check Production Information</div>
         <div style="color:#94A3B8;">❯</div>
       </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       3.1 DGM PDF VIEWER SCREEN
+  ======================================================= -->
+  <div id="screen-pdf-viewer" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="showScreenView('screen-dgm')">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#7C3AED;">📄</span>
+        <span id="pdf-viewer-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">Document</span>
+      </div>
+      <a id="pdf-download-link" href="#" target="_blank" class="nav-btn app-bar-action" title="Open Full Screen">↗</a>
+    </div>
+
+    <div class="screen-scroll-body" style="padding:10px; display:flex; flex-direction:column; height:calc(100vh - 65px);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; padding:0 4px;">
+        <span style="font-size:12px; color:#64748B;">Document Preview</span>
+        <a id="pdf-external-btn" href="#" target="_blank" class="btn-pill btn-pill-outline" style="padding:4px 10px; font-size:12px; text-decoration:none;">
+          Open in New Tab ↗
+        </a>
+      </div>
+      <iframe id="pdf-render-frame" style="width:100%; flex:1; min-height:480px; border:1px solid #CBD5E1; border-radius:12px; background:#fff;" src=""></iframe>
     </div>
   </div>
 
