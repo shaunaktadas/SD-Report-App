@@ -482,3 +482,437 @@ window.addEventListener('DOMContentLoaded', () => {
   showScreenView('home-screen');
   history.replaceState({ screen: 'home-screen' }, '', '#home-screen');
 });
+
+
+/* =======================================================
+   11. NATIVE EMBEDDED REPORT GENERATORS & CALCULATORS
+======================================================= */
+
+/* A & B Shift Report Logic */
+function addNativeDrillingRow() {
+  const container = document.getElementById('ab-drilling-container');
+  if (!container) return;
+  const row = document.createElement('div');
+  row.className = 'form-row';
+  row.style.marginBottom = '6px';
+  row.innerHTML = `
+    <input type="number" class="form-input d-hole" placeholder="Holes">
+    <input type="number" class="form-input d-mtr" placeholder="Meters">
+    <button class="btn-action" style="width:38px; padding:0; background:#EF4444; color:white; border-radius:6px;" onclick="this.parentElement.remove()">✕</button>
+  `;
+  container.appendChild(row);
+}
+
+function generateNativeABReport() {
+  const rawDate = document.getElementById('ab-date').value;
+  const date = rawDate ? rawDate.split('-').reverse().join('.') : 'DD.MM.YYYY';
+  const shift = document.getElementById('ab-shift').value;
+  const raisingTrips = document.getElementById('ab-raisingTrips').value || 0;
+  const raisingMT = document.getElementById('ab-raisingMT').value || 0;
+  const devTrips = document.getElementById('ab-devTrips').value || 0;
+  const soilTrips = document.getElementById('ab-soilTrips').value || 0;
+  const stockTrips = document.getElementById('ab-stockTrips').value || 0;
+  const stockUnload = document.getElementById('ab-stockUnload').value || 0;
+  const hopperUnload = document.getElementById('ab-hopperUnload').value || 0;
+  const crushing = document.getElementById('ab-crushing').value || 0;
+
+  let drillText = '';
+  let totalDrill = 0;
+  document.querySelectorAll('#ab-drilling-container .form-row').forEach(row => {
+    const h = parseFloat(row.querySelector('.d-hole').value) || 0;
+    const m = parseFloat(row.querySelector('.d-mtr').value) || 0;
+    if (h > 0 && m > 0) {
+      const tot = h * m;
+      drillText += `${h} H x ${m}mtr = ${tot}mtr\n`;
+      totalDrill += tot;
+    }
+  });
+
+  let report = `*Date: ${date}*\n*SD Mines Report*\n\n`;
+  report += `*Shift: ${shift}*\n`;
+  report += `- *Raising*: ${raisingTrips} Trip ${raisingMT} MT\n`;
+  report += `- *Development*: ${devTrips} Trip\n`;
+  report += `- *Top Soil*: ${soilTrips} Trip\n`;
+  report += `- *Stock Feeding*: ${stockTrips} Trip\n`;
+  report += drillText ? `- *Drilling*: ${drillText}  Total: ${totalDrill}mtr\n\n` : `- *Drilling*: Nil\n\n`;
+  report += `- *Stock Unloading Trips*: ${stockUnload}\n`;
+  report += `- *Hopper Unloading Trips*: ${hopperUnload}\n\n`;
+  report += `*Summary*\n`;
+  report += `- *Total Raising*: ${raisingMT} MT\n`;
+  report += `- *Total Crushing*: ${crushing} MT`;
+
+  document.getElementById('ab-report-output').innerText = report;
+  document.getElementById('ab-result-container').style.display = 'block';
+  document.getElementById('ab-result-container').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyNativeABReport() {
+  const text = document.getElementById('ab-report-output').innerText;
+  navigator.clipboard.writeText(text).then(() => alert("Report copied to clipboard!"));
+}
+
+function shareNativeABWhatsApp() {
+  const text = document.getElementById('ab-report-output').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+/* C Shift Report Logic */
+function generateNativeCReport() {
+  const rawDate = document.getElementById('c-date').value;
+  const date = rawDate ? rawDate.split('-').reverse().join('.') : 'DD.MM.YYYY';
+
+  const aTrip = document.getElementById('c-aTrip').value || 0;
+  const aMT = parseFloat(document.getElementById('c-aMT').value || 0);
+  const aDev = parseInt(document.getElementById('c-aDev').value || 0);
+  const aSoil = parseInt(document.getElementById('c-aSoil').value || 0);
+  const aStock = parseInt(document.getElementById('c-aStock').value || 0);
+  const aDrill = parseInt(document.getElementById('c-aDrill').value || 0);
+
+  const bTrip = document.getElementById('c-bTrip').value || 0;
+  const bMT = parseFloat(document.getElementById('c-bMT').value || 0);
+  const bDev = parseInt(document.getElementById('c-bDev').value || 0);
+  const bSoil = parseInt(document.getElementById('c-bSoil').value || 0);
+  const bStock = parseInt(document.getElementById('c-bStock').value || 0);
+  const bDrill = parseInt(document.getElementById('c-bDrill').value || 0);
+
+  const cStock = parseInt(document.getElementById('c-cStock').value || 0);
+
+  const totRaising = (aMT + bMT).toFixed(2);
+  const totDev = aDev + bDev;
+  const totSoil = aSoil + bSoil;
+  const totStock = aStock + bStock + cStock;
+  const totDrill = aDrill + bDrill;
+
+  let mtdRaising = totRaising, mtdDev = totDev, mtdSoil = totSoil, mtdDrill = totDrill;
+  const prevText = document.getElementById('c-prevReport').value.trim();
+
+  if (prevText) {
+    const getVal = (pattern) => {
+      const m = prevText.match(pattern);
+      return m ? parseFloat(m[1]) : 0;
+    };
+    mtdRaising = (getVal(/Raising:\s*([\d.]+)\s*MT/i) + parseFloat(totRaising)).toFixed(2);
+    mtdDev = getVal(/Development:\s*([\d.]+)\s*Trip/i) + totDev;
+    mtdSoil = getVal(/Top Soil:\s*([\d.]+)\s*Trip/i) + totSoil;
+    mtdDrill = getVal(/Drilling:\s*([\d.]+)\s*MTR/i) + totDrill;
+  } else {
+    mtdRaising = document.getElementById('c-mtdRaising').value || totRaising;
+    mtdDev = document.getElementById('c-mtdDev').value || totDev;
+    mtdSoil = document.getElementById('c-mtdSoil').value || totSoil;
+    mtdDrill = document.getElementById('c-mtdDrill').value || totDrill;
+  }
+
+  let report = `*Date: ${date}*\n*SD Mines Day Report*\n\n`;
+  report += `*A Shift:*\n* Raising: ${aTrip} Trip ${aMT} MT\n* Development: ${aDev} Trip\n* Top Soil: ${aSoil} Trip\n* Stock Feeding: ${aStock} Trip\n* Drilling: ${aDrill} MTR\n\n`;
+  report += `*B Shift:*\n* Raising: ${bTrip} Trip ${bMT} MT\n* Development: ${bDev} Trip\n* Top Soil: ${bSoil} Trip\n* Stock Feeding: ${bStock} Trip\n* Drilling: ${bDrill} MTR\n\n`;
+  report += `*C Shift:*\n* Stock Feeding: ${cStock} Trip\n\n`;
+  report += `*Total Summary:*\n* Total Raising: ${totRaising} MT\n* Total Development: ${totDev} Trip\n* Total Top Soil: ${totSoil} Trip\n* Total Stock Feeding: ${totStock} Trip\n* Total Drilling: ${totDrill} MTR\n\n`;
+  report += `*MTD SD Mines:*\n* Raising: ${mtdRaising} MT\n* Development: ${mtdDev} Trip\n* Top Soil: ${mtdSoil} Trip\n* Drilling: ${mtdDrill} MTR`;
+
+  document.getElementById('c-report-output').innerText = report;
+  document.getElementById('c-result-container').style.display = 'block';
+  document.getElementById('c-result-container').scrollIntoView({ behavior: 'smooth' });
+}
+
+function copyNativeCReport() {
+  const text = document.getElementById('c-report-output').innerText;
+  navigator.clipboard.writeText(text).then(() => alert("C Shift Report copied!"));
+}
+
+function shareNativeCWhatsApp() {
+  const text = document.getElementById('c-report-output').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+/* Pile Calculator Blending */
+function calcBlendingPile() {
+  const q1 = parseFloat(document.getElementById('pile-q1').value);
+  const l1 = parseFloat(document.getElementById('pile-l1').value);
+  const m1 = parseFloat(document.getElementById('pile-m1').value);
+  const qt = parseFloat(document.getElementById('pile-qt').value);
+  const lt = parseFloat(document.getElementById('pile-lt').value);
+  const mt = parseFloat(document.getElementById('pile-mt').value);
+  const l2 = parseFloat(document.getElementById('pile-l2').value);
+  const m2 = parseFloat(document.getElementById('pile-m2').value);
+
+  const resBox = document.getElementById('pile-result-box');
+  if (isNaN(q1) || isNaN(l1) || isNaN(m1) || isNaN(qt) || isNaN(lt) || isNaN(mt)) {
+    alert("Please fill all target and existing values.");
+    return;
+  }
+
+  const q2 = qt - q1;
+  let html = `<strong>Blending Summary:</strong><br>` +
+    `• Existing Q₁: ${q1.toLocaleString()} Tons | Target Qₜ: ${qt.toLocaleString()} Tons<br>` +
+    `• <b>Required Q₂ = ${q2.toLocaleString()} Tons</b><br><br>`;
+
+  if (!isNaN(l2) && !isNaN(m2)) {
+    const blendedLSF = ((q1 * l1) + (q2 * l2)) / qt;
+    const blendedMgO = ((q1 * m1) + (q2 * m2)) / qt;
+    html += `• <b>Blended LSF:</b> ${blendedLSF.toFixed(2)}<br>` +
+            `• <b>Blended MgO:</b> ${blendedMgO.toFixed(2)}%<br>`;
+    const ok = Math.abs(blendedLSF - lt) <= 0.2 && Math.abs(blendedMgO - mt) <= 0.2;
+    html += `<div style="color:${ok ? '#059669' : '#DC2626'}; font-weight:700; margin-top:8px;">${ok ? '✓ Target matched closely.' : '⚠ Target not met closely. Adjust new material quality.'}</div>`;
+  } else {
+    const reqL2 = ((lt * qt) - (l1 * q1)) / q2;
+    const reqM2 = ((mt * qt) - (m1 * q1)) / q2;
+    html += `• <b>Required New Material LSF (L₂):</b> ${reqL2.toFixed(2)}<br>` +
+            `• <b>Required New Material MgO (M₂):</b> ${reqM2.toFixed(2)}%<br>` +
+            `<div style="color:#059669; font-weight:700; margin-top:8px;">✓ Calculation completed successfully.</div>`;
+  }
+  resBox.innerHTML = html;
+  resBox.style.display = 'block';
+}
+
+/* Calculator Logic (AB & C tabs) */
+let calcExpressions = { 'calc-display-ab': '', 'calc-display-c': '' };
+
+function calcInput(val, displayId) {
+  const disp = document.getElementById(displayId);
+  if (!disp) return;
+
+  if (val === 'C') {
+    calcExpressions[displayId] = '';
+    disp.innerText = '0';
+  } else if (val === 'DEL') {
+    calcExpressions[displayId] = calcExpressions[displayId].slice(0, -1);
+    disp.innerText = calcExpressions[displayId] || '0';
+  } else if (val === '=') {
+    try {
+      const res = eval(calcExpressions[displayId]);
+      disp.innerText = res;
+      calcExpressions[displayId] = res.toString();
+    } catch (e) {
+      disp.innerText = 'Error';
+      calcExpressions[displayId] = '';
+    }
+  } else if (val === '()') {
+    calcExpressions[displayId] += '()';
+    disp.innerText = calcExpressions[displayId];
+  } else {
+    calcExpressions[displayId] += val;
+    disp.innerText = calcExpressions[displayId];
+  }
+}
+
+/* TPH Calculator Logic */
+function calcNativeTPH(tId, rId, resId) {
+  const t = parseFloat(document.getElementById(tId).value);
+  const r = parseFloat(document.getElementById(rId).value);
+  const resEl = document.getElementById(resId);
+
+  if (isNaN(t) || isNaN(r) || r <= 0) {
+    alert("Please enter valid Tonnage and Running Hours (> 0).");
+    return;
+  }
+  const tph = (t / r).toFixed(2);
+  resEl.innerText = `Production Rate: ${tph} MT/Hr`;
+  resEl.style.display = 'block';
+}
+
+/* Manpower Report */
+function generateNativeManpowerReport() {
+  const rawDate = document.getElementById('mp-date').value;
+  const date = rawDate ? rawDate.split('-').reverse().join('.') : 'DD.MM.YYYY';
+  const shift = document.getElementById('mp-shift').value;
+  const foreman = document.getElementById('mp-foreman').value || "Nil";
+  const mate = document.getElementById('mp-mate').value || "Nil";
+  const own = document.getElementById('mp-own').value || 0;
+  const pks = document.getElementById('mp-pks').value || 0;
+  const total = document.getElementById('mp-total').value || 0;
+
+  const report = `*MANPOWER IN SD MINES*\n` +
+    `*Date :-* ${date}\n` +
+    `*SHIFT* :- *${shift}*\n` +
+    `*Mines Foreman*:- ${foreman}\n` +
+    `*Mine Mate*:- ${mate}\n` +
+    `*Own + TP*:-  ${own}\n` +
+    `*PKS Manpower*:- ${pks}\n` +
+    `*Total Manpower*:- ${total}`;
+
+  document.getElementById('mp-report-output').innerText = report;
+  document.getElementById('mp-result-wrap').style.display = 'block';
+}
+
+function copyNativeManpowerReport() {
+  const text = document.getElementById('mp-report-output').innerText;
+  navigator.clipboard.writeText(text).then(() => alert("Manpower Report copied!"));
+}
+
+function shareNativeManpowerWhatsApp() {
+  const text = document.getElementById('mp-report-output').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+/* Shift Allocation Report */
+function generateNativeAllocReport() {
+  const shift = document.getElementById('alloc-shift').value;
+  const foreman = document.getElementById('alloc-foreman').value || 'Nil';
+  const mate = document.getElementById('alloc-mate').value || 'Nil';
+
+  const rSY = document.getElementById('alloc-raising-sy').value;
+  const rTip = document.getElementById('alloc-raising-tip').value;
+  const dSY = document.getElementById('alloc-dev-sy').value;
+  const dTip = document.getElementById('alloc-dev-tip').value;
+  const sSY = document.getElementById('alloc-stock-sy').value;
+  const sTip = document.getElementById('alloc-stock-tip').value;
+  const drill = document.getElementById('alloc-drilling').value || 'Nil';
+
+  const raising = rSY && rTip ? `${rSY} + ${rTip}` : 'Nil';
+  const dev = dSY && dTip ? `${dSY} + ${dTip}` : 'Nil';
+  const stock = sSY && sTip ? `${sSY} + ${sTip}` : 'Nil';
+
+  const report = `*SD Mines ${shift} Shift Allocation*\n\n` +
+    `*Mine Foreman*: ${foreman}\n` +
+    `*Mine Mate*: ${mate}\n\n` +
+    `*Raising*: ${raising}\n` +
+    `*Development*: ${dev}\n` +
+    `*Stock Feeding*: ${stock}\n` +
+    `*Drilling*: ${drill}`;
+
+  document.getElementById('alloc-report-output').innerText = report;
+  document.getElementById('alloc-result-wrap').style.display = 'block';
+}
+
+function copyNativeAllocReport() {
+  const text = document.getElementById('alloc-report-output').innerText;
+  navigator.clipboard.writeText(text).then(() => alert("Allocation Report copied!"));
+}
+
+function shareNativeAllocWhatsApp() {
+  const text = document.getElementById('alloc-report-output').innerText;
+  window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+}
+
+/* Tool Box Safety Talk Topics (Searchable Table) */
+const toolboxTopicsList = [
+  "Importance of Pre-Shift Equipment Checks",
+  "Safe Operation of Heavy Machinery (General)",
+  "Identifying and Reporting Unsafe Conditions",
+  "Proper Use of Personal Protective Equipment (PPE)",
+  "Understanding Site Emergency Procedures",
+  "Maintaining Good Housekeeping in the Workplace",
+  "Preventing Slips, Trips, and Falls",
+  "Safe Use of Hand Tools",
+  "Importance of Following Instructions and Procedures",
+  "Fatigue Management and Prevention",
+  "Safe Access and Egress on Site",
+  "Working Safely Around Mobile Equipment",
+  "Understanding and Respecting Site Signage",
+  "Basic First Aid Awareness",
+  "Fire Prevention and Basic Fire Extinguisher Use",
+  "Safe Lifting Techniques and Manual Handling",
+  "Noise Hazards and Hearing Protection",
+  "Dust Control Measures and Respiratory Protection",
+  "Safe Operation of Light Vehicles on Site",
+  "Environmental Awareness and Spill Control",
+  "Working Safely in Varying Weather Conditions",
+  "Importance of Reporting Near Misses",
+  "Electrical Safety Basics and Avoiding Hazards",
+  "Lockout/Tagout Procedures for Equipment Maintenance",
+  "Safe Use of Ladders and Scaffolding",
+  "Working Safely at Heights",
+  "Understanding Ground Control Measures",
+  "Identifying Potential Rockfall Hazards",
+  "Safe Procedures for Working Near Excavations",
+  "Haul Road Safety and Traffic Management",
+  "Blind Spots Awareness Around Heavy Equipment",
+  "Communication Protocols on Site",
+  "Safe Fueling Procedures for Equipment",
+  "Proper Maintenance and Inspection of PPE",
+  "Understanding Safety Data Sheets (SDS)",
+  "Safe Handling and Storage of Chemicals",
+  "Working Safely with Compressed Air",
+  "Importance of Regular Safety Meetings",
+  "Confined Space Entry Awareness",
+  "Safe Blasting Procedures and Clearance",
+  "Handling and Storage of Explosives (General Awareness)",
+  "Post-Blast Inspection Procedures",
+  "Safe Operation of Drilling Equipment",
+  "Safe Operation of Excavators",
+  "Safe Operation of Loaders",
+  "Safe Operation of Dump Trucks",
+  "Safe Operation of Graders",
+  "Safe Operation of Bulldozers",
+  "Safe Use of Water Trucks for Dust Suppression",
+  "Safe Use of Service Vehicles",
+  "Importance of Following Spotter Instructions",
+  "Safe Coupling and Uncoupling of Trailers",
+  "Securing Loads Properly for Transportation",
+  "Preventing Back Injuries During Manual Tasks",
+  "Recognizing and Addressing Heat Stress",
+  "Preventing Cold Stress and Hypothermia",
+  "Importance of Hydration in Mining Operations",
+  "Maintaining Personal Hygiene on Site",
+  "Dealing with Wildlife Encounters on Site",
+  "Importance of Reporting All Incidents and Accidents",
+  "Understanding the Consequences of Taking Shortcuts",
+  "The Role of Each Worker in Maintaining Safety",
+  "Safe Use of Mobile Phones and Electronic Devices on Site",
+  "Maintaining a Safe Attitude Towards Work",
+  "Importance of Teamwork in Safety",
+  "Safe Procedures for Working at Night",
+  "Proper Use of Lighting on Site",
+  "Maintaining Visibility in Dusty Conditions",
+  "Safe Practices During Maintenance Activities",
+  "Importance of Using the Right Tool for the Job",
+  "Safe Disposal of Waste Materials",
+  "Preventing Contamination of Water Sources",
+  "Minimizing Environmental Impact of Mining Activities",
+  "Importance of Regular Equipment Inspections",
+  "Reporting Equipment Defects Promptly",
+  "Understanding the Mine Safety Rules and Regulations",
+  "The Importance of Risk Assessment Before Starting Work",
+  "Identifying and Mitigating Potential Hazards",
+  "Safe Procedures for Working Alone",
+  "Emergency Communication Systems on Site",
+  "Safe Movement of Personnel Around the Mine Site",
+  "Maintaining Safe Distances from Operating Equipment",
+  "Awareness of Overhead Power Lines",
+  "Safe Procedures for Working Near Water Bodies",
+  "Importance of Following Traffic Rules on Site",
+  "Safe Parking Procedures for Vehicles and Equipment",
+  "Preventing Unauthorized Access to Restricted Areas",
+  "Importance of Security Measures on Site",
+  "Safe Procedures for Handling Samples",
+  "Awareness of Potential Geotechnical Hazards",
+  "Safe Use of Surveying Equipment",
+  "Importance of Continuous Safety Improvement",
+  "Recognizing and Addressing Signs of Impairment",
+  "The Impact of Alcohol and Drugs on Workplace Safety",
+  "Stress Management Techniques for Miners",
+  "Promoting a Positive Safety Culture on Site",
+  "Understanding the Consequences of Safety Violations",
+  "Encouraging Active Participation in Safety Initiatives",
+  "Review of Recent Incidents and Lessons Learned",
+  "Continuous Learning and Development in Safety"
+];
+
+function renderNativeSafetyTopics(filter = '') {
+  const tbody = document.getElementById('toolbox-table-body');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+  const q = filter.toLowerCase().trim();
+
+  toolboxTopicsList.forEach((t, idx) => {
+    if (!q || t.toLowerCase().includes(q)) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><b>${idx + 1}</b></td><td>${t}</td>`;
+      tbody.appendChild(tr);
+    }
+  });
+}
+
+function filterNativeSafetyTopics() {
+  const q = document.getElementById('toolbox-search-input').value;
+  renderNativeSafetyTopics(q);
+}
+
+// Initial dates & topics on boot
+window.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  if (document.getElementById('ab-date')) document.getElementById('ab-date').value = today;
+  if (document.getElementById('c-date')) document.getElementById('c-date').value = today;
+  if (document.getElementById('mp-date')) document.getElementById('mp-date').value = today;
+  renderNativeSafetyTopics();
+});
