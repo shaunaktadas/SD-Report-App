@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>SD Mines Report</title>
+  
+  <!-- Favicon & Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app-viewport">
+
+  <!-- =======================================================
+       1. HOME SCREEN (Exact Flutter Android Replica)
+  ======================================================= -->
+  <div id="home-screen" class="screen-view active">
+    <!-- Header Title: SD Report -->
+    <h1 class="home-header-title">SD Report</h1>
+
+    <!-- 5-Second Auto-Changing Quotes Carousel -->
+    <div class="quotes-carousel-card">
+      <div class="quotes-carousel-tag">Mining Quote</div>
+      <div id="quotes-text-display" class="quotes-carousel-text">"Safety first, progress follows in every mine."</div>
+    </div>
+
+    <!-- Row 1 Tiles: Pile Calculator, DGM Site & Share Report -->
+    <div class="grid-tiles-row">
+      <!-- Tile 1: Pile Calculator -->
+      <div class="flutter-main-tile tile-pile" onclick="navigateTo('screen-pile')">
+        <div class="tile-icon-box">🧮</div>
+        <div class="tile-text-label">Pile
+Calculator</div>
+      </div>
+
+      <!-- Tile 2: DGM Site -->
+      <div class="flutter-main-tile tile-dgm" onclick="navigateTo('screen-dgm')">
+        <div class="tile-icon-box">🏢</div>
+        <div class="tile-text-label">DGM
+Site</div>
+      </div>
+
+      <!-- Tile 3: Share Report -->
+      <div class="flutter-main-tile tile-share" onclick="navigateTo('screen-share')">
+        <div class="tile-icon-box">📤</div>
+        <div class="tile-text-label">Share
+Report</div>
+      </div>
+    </div>
+
+    <!-- Row 2 Tiles: Shift Chart, Safety Checklist & Reminder Notes -->
+    <div class="grid-tiles-row">
+      <!-- Tile 4: Shift Chart -->
+      <div class="flutter-main-tile tile-chart" onclick="navigateTo('screen-shiftchart')">
+        <div class="tile-icon-box">📅</div>
+        <div class="tile-text-label">Shift
+Chart</div>
+      </div>
+
+      <!-- Tile 5: Safety Checklist -->
+      <div class="flutter-main-tile tile-safety" onclick="navigateTo('screen-checklist')">
+        <div class="tile-icon-box">🛡️</div>
+        <div class="tile-text-label">Safety
+Checklist</div>
+      </div>
+
+      <!-- Tile 6: Reminder Notes -->
+      <div class="flutter-main-tile tile-reminder" onclick="navigateTo('screen-reminder')">
+        <div class="tile-icon-box">📝</div>
+        <div class="tile-text-label">Reminder
+Notes</div>
+      </div>
+    </div>
+
+    <!-- 5 Horizontal Long Buttons with Glass Effect -->
+    <div class="horizontal-actions-column">
+      <!-- Button 1: A & B Shift Report -->
+      <div class="flutter-h-button" onclick="navigateTo('screen-ab-report')">
+        <div class="h-btn-icon-badge" style="background: rgba(37, 99, 235, 0.15); color: #2563EB;">⏰</div>
+        <div class="h-btn-title">A & B Shift Report</div>
+        <div class="h-btn-chevron" style="color: rgba(37, 99, 235, 0.7);">❯</div>
+      </div>
+
+      <!-- Button 2: C Shift Report -->
+      <div class="flutter-h-button" onclick="navigateTo('screen-c-report')">
+        <div class="h-btn-icon-badge" style="background: rgba(124, 58, 237, 0.15); color: #7C3AED;">🌙</div>
+        <div class="h-btn-title">C Shift Report</div>
+        <div class="h-btn-chevron" style="color: rgba(124, 58, 237, 0.7);">❯</div>
+      </div>
+
+      <!-- Button 3: Manpower Report -->
+      <div class="flutter-h-button" onclick="navigateTo('screen-manpower')">
+        <div class="h-btn-icon-badge" style="background: rgba(5, 150, 105, 0.15); color: #059669;">👥</div>
+        <div class="h-btn-title">Manpower Report</div>
+        <div class="h-btn-chevron" style="color: rgba(5, 150, 105, 0.7);">❯</div>
+      </div>
+
+      <!-- Button 4: Shift Allocation Report -->
+      <div class="flutter-h-button" onclick="navigateTo('screen-allocation')">
+        <div class="h-btn-icon-badge" style="background: rgba(217, 119, 6, 0.15); color: #D97706;">📋</div>
+        <div class="h-btn-title">Shift Allocation Report</div>
+        <div class="h-btn-chevron" style="color: rgba(217, 119, 6, 0.7);">❯</div>
+      </div>
+
+      <!-- Button 5: Tool Box Safety Talk Topics -->
+      <div class="flutter-h-button" onclick="navigateTo('screen-toolbox')">
+        <div class="h-btn-icon-badge" style="background: rgba(219, 39, 119, 0.15); color: #DB2777;">🦺</div>
+        <div class="h-btn-title">Tool Box Safety Talk Topics</div>
+        <div class="h-btn-chevron" style="color: rgba(219, 39, 119, 0.7);">❯</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       2. PILE CALCULATOR SCREEN
+  ======================================================= -->
+  <div id="screen-pile" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#2563EB;">🧮</span>
+        <span>Pile Calculator</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-pile')" title="Reload Page">🔄</button>
+    </div>
+
+    <!-- Tabs: Pile Calculator & Formula -->
+    <div class="flutter-tab-bar">
+      <button class="flutter-tab-item active" data-tab="calc" onclick="switchTab('screen-pile', 'calc')">🧮 Pile Calculator</button>
+      <button class="flutter-tab-item" data-tab="formula" onclick="switchTab('screen-pile', 'formula')">📐 Formula</button>
+    </div>
+
+    <!-- Tab 1: Pile Calculator iframe -->
+    <div id="screen-pile-calc" class="screen-pile-tab-content" style="flex:1;">
+      <iframe id="iframe-pile" class="iframe-container" src="assets/Pile_Calculator.html"></iframe>
+    </div>
+
+    <!-- Tab 2: Formula Guide -->
+    <div id="screen-pile-formula" class="screen-pile-tab-content" style="display:none; padding:16px;">
+      <div style="background:#FFFFFF; border-radius:14px; padding:18px; border:1px solid #E2E8F0; box-shadow:0 2px 10px rgba(0,0,0,0.04);">
+        <h3 style="color:#0F172A; font-size:16px; margin-bottom:12px;">Blending Calculation Formula</h3>
+        <p style="font-size:13.5px; line-height:1.6; color:#475569;">
+          <b>Target Quantity Equation:</b><br>
+          Q₂ = Qₜ - Q₁<br><br>
+          <b>Required New Material LSF (L₂):</b><br>
+          L₂ = [(Lₜ × Qₜ) − (L₁ × Q₁)] / Q₂<br><br>
+          <b>Required New Material MgO (M₂):</b><br>
+          M₂ = [(Mₜ × Qₜ) − (M₁ × Q₁)] / Q₂
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       3. DGM SITE SCREEN
+  ======================================================= -->
+  <div id="screen-dgm" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#7C3AED;">🏢</span>
+        <span>DGM Site</span>
+      </div>
+      <div style="width:36px;"></div>
+    </div>
+
+    <div class="screen-scroll-body">
+      <!-- Header Banner Card -->
+      <div class="dgm-banner-card">
+        <div class="dgm-banner-icon">💼</div>
+        <div>
+          <h3 style="font-size:15px; font-weight:700; color:#0F172A;">DGM Portal & Procedures</h3>
+          <p style="font-size:12.5px; color:#64748B;">Mining Department Direct Procedure Documents</p>
+        </div>
+      </div>
+
+      <!-- 5 DGM Procedure Cards -->
+      <div class="dgm-action-card" onclick="openDgmAction('Transit Pass Generate')">
+        <div class="dgm-card-icon" style="background:#2563EB;">🚚</div>
+        <div class="dgm-card-title">1. Transit Pass Generate</div>
+        <div style="color:#94A3B8;">❯</div>
+      </div>
+
+      <div class="dgm-action-card" onclick="openDgmAction('Bulk Demand Generate')">
+        <div class="dgm-card-icon" style="background:#7C3AED;">📄</div>
+        <div class="dgm-card-title">2. Bulk Demand Generate</div>
+        <div style="color:#94A3B8;">❯</div>
+      </div>
+
+      <div class="dgm-action-card" onclick="openDgmAction('Bulk Demand Surrender')">
+        <div class="dgm-card-icon" style="background:#DC2626;">🔄</div>
+        <div class="dgm-card-title">3. Bulk Demand Surrender</div>
+        <div style="color:#94A3B8;">❯</div>
+      </div>
+
+      <div class="dgm-action-card" onclick="openDgmAction('Add Production Information')">
+        <div class="dgm-card-icon" style="background:#059669;">🏭</div>
+        <div class="dgm-card-title">4. Add Production Information</div>
+        <div style="color:#94A3B8;">❯</div>
+      </div>
+
+      <div class="dgm-action-card" onclick="openDgmAction('Check Production Information')">
+        <div class="dgm-card-icon" style="background:#D97706;">✅</div>
+        <div class="dgm-card-title">5. Check Production Information</div>
+        <div style="color:#94A3B8;">❯</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       4. SHARE REPORT SCREEN (Camera, Rotate, Crop & Share)
+  ======================================================= -->
+  <div id="screen-share" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#059669;">📤</span>
+        <span>Share Report</span>
+      </div>
+      <div style="width:36px;"></div>
+    </div>
+
+    <input type="file" id="report-type-picker" accept="image/*" style="display:none;" onchange="onPhotoSelected(event)">
+
+    <div class="screen-scroll-body">
+      <!-- 5 Report Types List (When no photo chosen) -->
+      <div id="share-categories-list">
+        <div style="font-size:13px; color:#64748B; margin-bottom:10px;">Select report type to capture and share:</div>
+
+        <div class="share-type-card" onclick="selectReportType('Daily Shift Report')">
+          <div class="dgm-card-icon" style="background:#2563EB;">📊</div>
+          <div class="dgm-card-title">Daily Shift Report</div>
+          <div style="color:#94A3B8;">📷</div>
+        </div>
+
+        <div class="share-type-card" onclick="selectReportType('Put To Stock Report')">
+          <div class="dgm-card-icon" style="background:#059669;">📦</div>
+          <div class="dgm-card-title">Put To Stock Report</div>
+          <div style="color:#94A3B8;">📷</div>
+        </div>
+
+        <div class="share-type-card" onclick="selectReportType('Reject Handling Report')">
+          <div class="dgm-card-icon" style="background:#DC2626;">⚖️</div>
+          <div class="dgm-card-title">Reject Handling Report</div>
+          <div style="color:#94A3B8;">📷</div>
+        </div>
+
+        <div class="share-type-card" onclick="selectReportType('Daily Limestone Raising Report')">
+          <div class="dgm-card-icon" style="background:#D97706;">⛰️</div>
+          <div class="dgm-card-title">Daily Limestone Raising Report</div>
+          <div style="color:#94A3B8;">📷</div>
+        </div>
+
+        <div class="share-type-card" onclick="selectReportType('Stock Rehandling Report')">
+          <div class="dgm-card-icon" style="background:#7C3AED;">📥</div>
+          <div class="dgm-card-title">Stock Rehandling Report</div>
+          <div style="color:#94A3B8;">📷</div>
+        </div>
+      </div>
+
+      <!-- Crop & Share Interface -->
+      <div id="crop-interface-wrap" style="display:none;">
+        <div style="font-size:14px; font-weight:700; color:#0F172A; margin-bottom:8px;" id="crop-active-title">Report Preview</div>
+
+        <div class="crop-preview-box">
+          <canvas id="crop-canvas"></canvas>
+        </div>
+
+        <div class="crop-toolbar">
+          <button class="btn-pill btn-pill-outline" style="flex:1;" onclick="rotateCrop(-90)">↺ Left</button>
+          <button class="btn-pill btn-pill-outline" style="flex:1;" onclick="rotateCrop(90)">↻ Right</button>
+          <button class="btn-pill btn-pill-primary" style="flex:1.4;" onclick="applyInlineCrop()">✂ Apply Crop</button>
+          <button class="btn-pill btn-pill-outline" style="flex:1;" onclick="retakePhoto()">📷 Retake</button>
+        </div>
+
+        <button class="btn-pill btn-pill-whatsapp" onclick="sharePhotoToWhatsApp()">
+          💬 Share on WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       5. SHIFT CHART SCREEN
+  ======================================================= -->
+  <div id="screen-shiftchart" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#0EA5E9;">📅</span>
+        <span>Shift Chart</span>
+      </div>
+      <label class="nav-btn app-bar-action" style="cursor:pointer;" title="Add/Update Chart">
+        ➕
+        <input type="file" accept="image/*" style="display:none;" onchange="onShiftChartSelected(event)">
+      </label>
+    </div>
+
+    <div class="screen-scroll-body">
+      <div class="shift-chart-display">
+        <img id="chart-img-view" style="display:none;" alt="Shift Chart">
+        
+        <div id="chart-empty-view" style="display:flex; flex-direction:column; align-items:center; text-align:center;">
+          <div style="font-size:36px; margin-bottom:8px;">📋</div>
+          <div style="font-weight:700; font-size:15px; color:#1E293B;">No Shift Chart Added</div>
+          <div style="font-size:13px; color:#64748B; margin:4px 0 16px 0;">Add your shift duty schedule image here.</div>
+          <label class="btn-pill btn-pill-primary" style="cursor:pointer;">
+            Upload Shift Chart
+            <input type="file" accept="image/*" style="display:none;" onchange="onShiftChartSelected(event)">
+          </label>
+        </div>
+      </div>
+
+      <div id="chart-zoom-controls" style="display:none; justify-content:center; gap:8px; margin-top:14px;">
+        <button class="btn-pill btn-pill-outline" onclick="zoomChart(1.2)">🔍+ Zoom In</button>
+        <button class="btn-pill btn-pill-outline" onclick="zoomChart(0.8)">🔍- Zoom Out</button>
+        <button class="btn-pill btn-pill-outline" onclick="resetChartZoom()">Reset</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       6. SAFETY CHECKLIST SCREEN
+  ======================================================= -->
+  <div id="screen-checklist" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#10B981;">🛡️</span>
+        <span>Safety Checklist</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="resetChecklistDialog()" title="Reset All">🔄</button>
+    </div>
+
+    <div class="screen-scroll-body">
+      <!-- Live Status Progress Card -->
+      <div class="checklist-status-card">
+        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:14px; margin-bottom:8px;">
+          <span>Safety Inspection Status</span>
+          <span id="checklist-pct-text">0%</span>
+        </div>
+        <div style="background:rgba(255,255,255,0.3); height:8px; border-radius:4px; overflow:hidden;">
+          <div id="checklist-progress-bar" style="background:#FFFFFF; height:100%; width:0%; transition:width 0.3s;"></div>
+        </div>
+        <div id="checklist-count-text" style="font-size:12px; margin-top:6px; opacity:0.9;">0 of 20 items completed</div>
+      </div>
+
+      <!-- Categories Container -->
+      <div id="checklist-category-container"></div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       7. REMINDER NOTES SCREEN
+  ======================================================= -->
+  <div id="screen-reminder" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#F59E0B;">📝</span>
+        <span>Reminder Notes</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="clearReminderDialog()" title="Clear Notes" style="color:#DC2626;">🗑️</button>
+    </div>
+
+    <div class="screen-scroll-body">
+      <div class="notepad-paper">
+        <textarea id="reminder-textarea" class="notepad-textarea" placeholder="Write reminders, shift handover points, pending tasks... (Continuously auto-saves)" oninput="onReminderInput()"></textarea>
+        <div class="notepad-footer">
+          <span id="reminder-save-badge">● Auto-Saved</span>
+          <span id="reminder-char-count">0 characters</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       8. A & B SHIFT REPORT SCREEN (3 Tabs: Report, Calc, TPH)
+  ======================================================= -->
+  <div id="screen-ab-report" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#2563EB;">⏰</span>
+        <span>A & B Shift Report</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-ab-report')" title="Reload Tab">🔄</button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="flutter-tab-bar">
+      <button class="flutter-tab-item active" data-tab="report" onclick="switchTab('screen-ab-report', 'report')">📊 Report</button>
+      <button class="flutter-tab-item" data-tab="calc" onclick="switchTab('screen-ab-report', 'calc')">🧮 Calculator</button>
+      <button class="flutter-tab-item" data-tab="tph" onclick="switchTab('screen-ab-report', 'tph')">⚡ TPH</button>
+    </div>
+
+    <!-- Tab 1: Report (IndexedStack persistence) -->
+    <div id="screen-ab-report-report" class="screen-ab-report-tab-content" style="flex:1;">
+      <iframe id="iframe-ab-report" class="iframe-container" src="assets/A_B_shift_Report.html"></iframe>
+    </div>
+
+    <!-- Tab 2: Calculator -->
+    <div id="screen-ab-report-calc" class="screen-ab-report-tab-content" style="flex:1; display:none;">
+      <iframe id="iframe-ab-calc" class="iframe-container" src="assets/calculator.html"></iframe>
+    </div>
+
+    <!-- Tab 3: TPH -->
+    <div id="screen-ab-report-tph" class="screen-ab-report-tab-content" style="flex:1; display:none;">
+      <iframe id="iframe-ab-tph" class="iframe-container" src="assets/TPH_Calculator.html"></iframe>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       9. C SHIFT REPORT SCREEN (3 Tabs: Report, Calc, TPH)
+  ======================================================= -->
+  <div id="screen-c-report" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#7C3AED;">🌙</span>
+        <span>C Shift Report</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-c-report')" title="Reload Tab">🔄</button>
+    </div>
+
+    <!-- Tab Bar -->
+    <div class="flutter-tab-bar">
+      <button class="flutter-tab-item active" data-tab="report" onclick="switchTab('screen-c-report', 'report')">📊 Report</button>
+      <button class="flutter-tab-item" data-tab="calc" onclick="switchTab('screen-c-report', 'calc')">🧮 Calculator</button>
+      <button class="flutter-tab-item" data-tab="tph" onclick="switchTab('screen-c-report', 'tph')">⚡ TPH</button>
+    </div>
+
+    <!-- Tab 1: Report -->
+    <div id="screen-c-report-report" class="screen-c-report-tab-content" style="flex:1;">
+      <iframe id="iframe-c-report" class="iframe-container" src="assets/C_shift_Report.html"></iframe>
+    </div>
+
+    <!-- Tab 2: Calculator -->
+    <div id="screen-c-report-calc" class="screen-c-report-tab-content" style="flex:1; display:none;">
+      <iframe id="iframe-c-calc" class="iframe-container" src="assets/calculator.html"></iframe>
+    </div>
+
+    <!-- Tab 3: TPH -->
+    <div id="screen-c-report-tph" class="screen-c-report-tab-content" style="flex:1; display:none;">
+      <iframe id="iframe-c-tph" class="iframe-container" src="assets/TPH_Calculator.html"></iframe>
+    </div>
+  </div>
+
+
+  <!-- =======================================================
+       10. MANPOWER REPORT SCREEN
+  ======================================================= -->
+  <div id="screen-manpower" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#059669;">👥</span>
+        <span>Manpower Report</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-manpower')" title="Reload Page">🔄</button>
+    </div>
+
+    <iframe id="iframe-manpower" class="iframe-container" src="assets/Manpower_report.html"></iframe>
+  </div>
+
+
+  <!-- =======================================================
+       11. SHIFT ALLOCATION REPORT SCREEN
+  ======================================================= -->
+  <div id="screen-allocation" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#D97706;">📋</span>
+        <span>Shift Allocation Report</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-allocation')" title="Reload Page">🔄</button>
+    </div>
+
+    <iframe id="iframe-allocation" class="iframe-container" src="assets/allocation.html"></iframe>
+  </div>
+
+
+  <!-- =======================================================
+       12. TOOL BOX SAFETY TALK TOPICS SCREEN
+  ======================================================= -->
+  <div id="screen-toolbox" class="screen-view">
+    <div class="flutter-app-bar">
+      <button class="nav-btn" onclick="handleBackButton()">❮</button>
+      <div class="app-bar-title-wrap">
+        <span style="color:#DB2777;">🦺</span>
+        <span>Tool Box Safety Talk Topics</span>
+      </div>
+      <button class="nav-btn app-bar-action" onclick="reloadTabIframe('iframe-toolbox')" title="Reload Page">🔄</button>
+    </div>
+
+    <iframe id="iframe-toolbox" class="iframe-container" src="assets/Tool_box_safety_talk_topic.html"></iframe>
+  </div>
+
+</div>
+
+
+<!-- =======================================================
+     MODAL DIALOGS
+======================================================= -->
+
+<!-- Exit Application Dialog (Flutter Replica) -->
+<div id="exit-dialog-modal" class="modal-overlay">
+  <div class="modal-dialog">
+    <div class="modal-title">
+      <span style="color:#DC2626; font-size:20px;">🚪</span>
+      <span>Close SD Report?</span>
+    </div>
+    <div class="modal-content-text">
+      Are you sure you want to exit the application?
+    </div>
+    <div class="modal-actions">
+      <button class="btn-pill btn-pill-outline" onclick="closeExitModal()">No / Cancel</button>
+      <button class="btn-pill" style="background:#DC2626; color:white;" onclick="confirmExitApp()">Yes / Exit</button>
+    </div>
+  </div>
+</div>
+
+<!-- DGM Site Document Dialog -->
+<div id="dgm-dialog-modal" class="modal-overlay">
+  <div class="modal-dialog">
+    <div class="modal-title">
+      <span style="color:#7C3AED; font-size:20px;">📄</span>
+      <span id="dgm-modal-title">DGM Document</span>
+    </div>
+    <div class="modal-content-text">
+      Aap is document ko direct view karne ke liye apna Google Drive ya server shareable link laga sakte hain.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-pill btn-pill-outline" onclick="closeDgmModal()">Close</button>
+      <button class="btn-pill btn-pill-primary" onclick="closeDgmModal()">Open Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- Main Controller Script -->
+<script src="app.js"></script>
+
+</body>
+</html>

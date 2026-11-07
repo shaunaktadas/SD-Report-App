@@ -1,0 +1,661 @@
+/* =======================================================
+   SD MINES REPORT - OFFICIAL WEB APP STYLESHEET
+   Accurate 1:1 Replica of Flutter Android Application
+======================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #2563EB;
+  --primary-dark: #1D4ED8;
+  --purple: #7C3AED;
+  --purple-dark: #6D28D9;
+  --emerald: #059669;
+  --emerald-dark: #047857;
+  --sky: #0EA5E9;
+  --sky-dark: #0284C7;
+  --green: #10B981;
+  --green-dark: #059669;
+  --amber: #F59E0B;
+  --amber-dark: #D97706;
+  --pink: #DB2777;
+  --red: #DC2626;
+  --dark: #0F172A;
+  --slate: #475569;
+  --light-slate: #64748B;
+  --border: #E2E8F0;
+  --card-glass: rgba(255, 255, 255, 0.85);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--dark);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  /* 12-Second Soothing Animated Gradient identical to Flutter's AnimatedGradientBackground */
+  background: linear-gradient(135deg, #FFFFFF, #DCFCE7, #E0F2FE, #F3E8FF, #F8FAFC);
+  background-size: 350% 350%;
+  animation: gradientFlow 12s ease-in-out infinite alternate;
+  overflow-x: hidden;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 100%; }
+  100% { background-position: 0% 0%; }
+}
+
+/* App Viewport Container (Mobile First, Desktop Centered) */
+#app-viewport {
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: transparent;
+  box-shadow: 0 0 45px rgba(15, 23, 42, 0.08);
+}
+
+/* =======================================================
+   APP BAR (Flutter Replica)
+======================================================= */
+.flutter-app-bar {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.flutter-app-bar .nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--dark);
+  font-size: 19px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.15s, transform 0.1s;
+}
+
+.flutter-app-bar .nav-btn:active {
+  background: #E2E8F0;
+  transform: scale(0.92);
+}
+
+.flutter-app-bar .app-bar-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--dark);
+  flex: 1;
+  margin-left: 4px;
+}
+
+.flutter-app-bar .app-bar-action {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+/* TAB BAR (Flutter Replica with Sliding Indicator) */
+.flutter-tab-bar {
+  display: flex;
+  background: rgba(241, 245, 249, 0.95);
+  border-bottom: 2px solid #E2E8F0;
+  position: sticky;
+  top: 57px;
+  z-index: 90;
+}
+
+.flutter-tab-item {
+  flex: 1;
+  padding: 11px 8px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--light-slate);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.2s;
+}
+
+.flutter-tab-item.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 700;
+}
+
+/* =======================================================
+   SCREENS & ROUTING
+======================================================= */
+.screen-view {
+  display: none !important;
+  flex: 1;
+  flex-direction: column;
+  animation: slideFadeIn 0.2s ease-out;
+}
+
+.screen-view.active {
+  display: flex !important;
+}
+
+@keyframes slideFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =======================================================
+   HOME SCREEN (Exact Flutter UI Replica)
+======================================================= */
+#home-screen {
+  padding: 14px 16px 20px 16px;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* SD Report Header Title with Etenira Demo Styling */
+.home-header-title {
+  text-align: center;
+  font-family: 'Georgia', 'Times New Roman', 'Outfit', serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #0F172A;
+  margin: 4px 0 6px 0;
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+/* 5-Second Quotes Carousel */
+.quotes-carousel-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 14px;
+  padding: 10px 14px;
+  box-shadow: 0 3px 8px rgba(15, 23, 42, 0.04);
+  text-align: center;
+  min-height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.quotes-carousel-tag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #2563EB;
+  margin-bottom: 2px;
+}
+
+.quotes-carousel-text {
+  font-size: 12.5px;
+  color: #334155;
+  font-style: italic;
+  line-height: 1.35;
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* 3x2 Main Grid Tiles */
+.grid-tiles-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.flutter-main-tile {
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-radius: 14px;
+  padding: 8px 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: #FFFFFF;
+  text-align: left;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  min-height: 52px;
+}
+
+.flutter-main-tile:active {
+  transform: scale(0.95);
+}
+
+.tile-icon-box {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+
+.tile-text-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  line-height: 1.15;
+  white-space: pre-line;
+  word-break: break-word;
+}
+
+/* Gradients for 6 Tiles */
+.tile-pile { background: linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.9)); box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25); }
+.tile-dgm { background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(109, 40, 217, 0.9)); box-shadow: 0 4px 10px rgba(124, 58, 237, 0.25); }
+.tile-share { background: linear-gradient(135deg, rgba(5, 150, 105, 0.9), rgba(4, 120, 87, 0.9)); box-shadow: 0 4px 10px rgba(5, 150, 105, 0.25); }
+.tile-chart { background: linear-gradient(135deg, rgba(14, 165, 233, 0.9), rgba(2, 132, 199, 0.9)); box-shadow: 0 4px 10px rgba(14, 165, 233, 0.25); }
+.tile-safety { background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(5, 150, 105, 0.9)); box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25); }
+.tile-reminder { background: linear-gradient(135deg, rgba(245, 158, 11, 0.9), rgba(217, 119, 6, 0.9)); box-shadow: 0 4px 10px rgba(245, 158, 11, 0.25); }
+
+/* 5 Horizontal Buttons with Translucent Glass Effect */
+.horizontal-actions-column {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.flutter-h-button {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid #FFFFFF;
+  border-radius: 12px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.15s;
+}
+
+.flutter-h-button:active {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.h-btn-icon-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  margin-right: 14px;
+}
+
+.h-btn-title {
+  flex: 1;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0F172A;
+}
+
+.h-btn-chevron {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* =======================================================
+   SUB-SCREEN BODY STYLES & IFRAME WRAPPER
+======================================================= */
+.screen-scroll-body {
+  padding: 16px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.iframe-container {
+  width: 100%;
+  flex: 1;
+  min-height: calc(100vh - 106px);
+  border: none;
+  background: transparent;
+  display: block;
+}
+
+/* =======================================================
+   DGM SITE SCREEN
+======================================================= */
+.dgm-banner-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.dgm-banner-icon {
+  background: rgba(124, 58, 237, 0.12);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  color: var(--purple);
+}
+
+.dgm-action-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.15s;
+}
+
+.dgm-action-card:active {
+  transform: scale(0.98);
+  background: #F8FAFC;
+}
+
+.dgm-card-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: white;
+  flex-shrink: 0;
+}
+
+.dgm-card-title {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #1E293B;
+  flex: 1;
+}
+
+/* =======================================================
+   SHARE REPORT (Photo & Crop)
+======================================================= */
+.share-type-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  transition: all 0.15s;
+}
+
+.share-type-card:active {
+  transform: scale(0.98);
+}
+
+.crop-preview-box {
+  background: #0F172A;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  min-height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+#crop-canvas {
+  max-width: 100%;
+  max-height: 380px;
+  display: block;
+}
+
+.crop-toolbar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.btn-pill {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: none;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s;
+}
+
+.btn-pill:active { transform: scale(0.96); }
+.btn-pill-primary { background: var(--primary); color: white; }
+.btn-pill-whatsapp { background: #25D366; color: white; width: 100%; padding: 13px; font-size: 15px; }
+.btn-pill-outline { background: #F1F5F9; color: #475569; border: 1px solid #CBD5E1; }
+
+/* =======================================================
+   SHIFT CHART SCREEN
+======================================================= */
+.shift-chart-display {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px dashed #93C5FD;
+  border-radius: 16px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+#chart-img-view {
+  max-width: 100%;
+  border-radius: 10px;
+  transition: transform 0.2s ease-out;
+  cursor: grab;
+}
+
+/* =======================================================
+   SAFETY CHECKLIST SCREEN
+======================================================= */
+.checklist-status-card {
+  background: linear-gradient(135deg, #10B981, #059669);
+  color: white;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+  margin-bottom: 14px;
+}
+
+.checklist-cat-card {
+  background: #FFFFFF;
+  border-radius: 14px;
+  padding: 14px;
+  border: 1px solid var(--border);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+  margin-bottom: 12px;
+}
+
+.checklist-cat-header {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1E293B;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.checklist-row-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px dashed #F1F5F9;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checklist-row-item:last-child { border-bottom: none; }
+
+.checklist-row-item input[type="checkbox"] {
+  width: 19px;
+  height: 19px;
+  accent-color: #059669;
+  cursor: pointer;
+}
+
+.checklist-row-item span {
+  font-size: 13.5px;
+  color: #334155;
+  transition: all 0.2s;
+}
+
+.checklist-row-item.done span {
+  text-decoration: line-through;
+  color: #94A3B8;
+}
+
+/* =======================================================
+   REMINDER NOTEPAD SCREEN
+======================================================= */
+.notepad-paper {
+  background: #FEF9C3;
+  border: 1.5px solid #FDE047;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 4px 18px rgba(245, 158, 11, 0.12);
+}
+
+.notepad-textarea {
+  width: 100%;
+  height: 320px;
+  background: repeating-linear-gradient(transparent, transparent 27px, #FDE68A 28px);
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 28px;
+  color: #78350F;
+  resize: none;
+}
+
+.notepad-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #B45309;
+  font-weight: 600;
+}
+
+/* =======================================================
+   EXIT CONFIRMATION DIALOG (FLUTTER REPLICA)
+======================================================= */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-dialog {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 22px;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+  animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modal-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0F172A;
+  margin-bottom: 8px;
+}
+
+.modal-content-text {
+  font-size: 14px;
+  color: #64748B;
+  line-height: 1.45;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
